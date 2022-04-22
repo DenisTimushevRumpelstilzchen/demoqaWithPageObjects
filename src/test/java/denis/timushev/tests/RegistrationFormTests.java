@@ -3,48 +3,70 @@ package denis.timushev.tests;
 import com.codeborne.selenide.Configuration;
 import denis.timushev.pages.RegistrationFormPage;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
 
 public class RegistrationFormTests {
 
     RegistrationFormPage registrationFormPage = new RegistrationFormPage();
 
+    String firstName = "fgth",
+            lastName = "gdhjghjk",
+            expectedFullName = String.format("%s %s", firstName, lastName),
+            email = "gijohb@j.ty",
+            mobile = "9874563214",
+            currentAddress = "Moscow",
+            dayOfBirth = "11",
+            monthOfBirth = "May",
+            yearOfBirth = "1999",
+            dateOfBirth = String.format("%s %s,%s", dayOfBirth, monthOfBirth, yearOfBirth),
+            gender = "Male",
+            subject1 = "English",
+            hobby = "Sports",
+            picture = "foto.png",
+            state = "Haryana",
+            city = "Karnal",
+            expectedCityAndState = String.format("%s %s", state, city),
+            modalTitle = "Thanks for submitting the form";
+
     @BeforeAll
     static void setUp() {
-        Configuration.baseUrl = "https://demoqa.com"; // основной адрес
-        Configuration.browserSize = "1920x1080"; // размер браузера
+        Configuration.baseUrl = "https://demoqa.com";
+        Configuration.browserSize = "1920x1080";
+    }
+
+    @BeforeEach
+    void openPage() {
+        registrationFormPage.openPage();
     }
 
     @Test
-    void fillFormTest() {
-        registrationFormPage.openPage().openPage()
-                .setFirstName("Alexander")
-                .setLastName("Pushkin")
-                .setEmail("alexanderpushkin@mail.ru")
-                .setGender("Other");
+    void fillRegFormTest() {
 
-        $("#userNumber").setValue("9261234567");
-        $("#dateOfBirthInput").click();
-        $(".react-datepicker__month-select").selectOption("May");
-        $(".react-datepicker__year-select").selectOption("1999");
-        $(".react-datepicker__day--026").click();
-        $("#subjectsInput").setValue("English").pressEnter();
-        $("#hobbies-checkbox-2").parent().click();
-        $("#uploadPicture").uploadFromClasspath("img/1.png");
-        $("#currentAddress").setValue("st. Prechistenka 12/2");
-        $("#state").click();
-        $("#stateCity-wrapper").$(byText("Haryana")).click();
-        $("#city").click();
-        $("#stateCity-wrapper").$(byText("Karnal")).click();
-        $("#submit").click();
+        registrationFormPage.setFirstName(firstName)
+                .setLastName(lastName)
+                .setEmail(email)
+                .setGender(gender)
+                .setPhone(mobile)
+                .setBirthDate(dayOfBirth, monthOfBirth, yearOfBirth)
+                .setSubject(subject1)
+                .setHobby(hobby)
+                .uploadImg(picture)
+                .setAddress(currentAddress)
+                .setState(state)
+                .setCity(city)
+                .pressSubmit();
 
-        $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));
-        registrationFormPage.checkResult("Student Name", "Alexander Pushkin")
-                .checkResult("Student Email", "alexanderpushkin@mail.ru")
-                .checkResult("Gender", "Other");
+        registrationFormPage.checkModalTitle(modalTitle)
+                .checkResult("Student Name", expectedFullName)
+                .checkResult("Student Email", email)
+                .checkResult("Gender", gender)
+                .checkResult("Mobile", mobile)
+                .checkResult("Date of Birth", dateOfBirth)
+                .checkResult("Subjects", subject1)
+                .checkResult("Hobbies", hobby)
+                .checkResult("Picture", picture)
+                .checkResult("Address", currentAddress)
+                .checkResult("State and City", expectedCityAndState);
     }
 }
