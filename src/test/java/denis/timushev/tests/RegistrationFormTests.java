@@ -1,6 +1,7 @@
 package denis.timushev.tests;
 
 import com.codeborne.selenide.Configuration;
+import com.github.javafaker.Faker;
 import denis.timushev.pages.RegistrationFormPage;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,12 +10,13 @@ import org.junit.jupiter.api.Test;
 public class RegistrationFormTests {
 
     RegistrationFormPage registrationFormPage = new RegistrationFormPage();
+    Faker faker = new Faker();
 
-    String firstName = "fgth",
-            lastName = "gdhjghjk",
+    String firstName = faker.name().firstName(),
+            lastName = faker.name().lastName(),
             expectedFullName = String.format("%s %s", firstName, lastName),
-            email = "gijohb@j.ty",
-            mobile = "9874563214",
+            email = faker.internet().emailAddress(),
+            mobile = faker.phoneNumber().subscriberNumber(10),
             currentAddress = "Moscow",
             dayOfBirth = "11",
             monthOfBirth = "May",
