@@ -64,6 +64,7 @@ public class RegistrationFormTests {
                 .setCity(city)
                 .pressSubmit();
         });
+
         step("Verify form data", () -> {
             registrationFormPage.checkModalTitle(modalTitle)
                     .checkResult("Student Name", expectedFullName)
