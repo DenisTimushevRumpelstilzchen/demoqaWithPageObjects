@@ -5,7 +5,10 @@ import com.github.javafaker.Faker;
 import denis.timushev.pages.RegistrationFormPage;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static io.qameta.allure.Allure.step;
 
 public class RegistrationFormTests {
 
@@ -43,9 +46,11 @@ public class RegistrationFormTests {
     }
 
     @Test
+    @DisplayName("Checking the registration form")
     void fillRegFormTest() {
 
-        registrationFormPage.setFirstName(firstName)
+        step("Fill registration form", () -> {
+            registrationFormPage.setFirstName(firstName)
                 .setLastName(lastName)
                 .setEmail(email)
                 .setGender(gender)
@@ -58,17 +63,19 @@ public class RegistrationFormTests {
                 .setState(state)
                 .setCity(city)
                 .pressSubmit();
-
-        registrationFormPage.checkModalTitle(modalTitle)
-                .checkResult("Student Name", expectedFullName)
-                .checkResult("Student Email", email)
-                .checkResult("Gender", gender)
-                .checkResult("Mobile", mobile)
-                .checkResult("Date of Birth", dateOfBirth)
-                .checkResult("Subjects", subject1)
-                .checkResult("Hobbies", hobby)
-                .checkResult("Picture", picture)
-                .checkResult("Address", currentAddress)
-                .checkResult("State and City", expectedCityAndState);
+        });
+        step("Verify form data", () -> {
+            registrationFormPage.checkModalTitle(modalTitle)
+                    .checkResult("Student Name", expectedFullName)
+                    .checkResult("Student Email", email)
+                    .checkResult("Gender", gender)
+                    .checkResult("Mobile", mobile)
+                    .checkResult("Date of Birth", dateOfBirth)
+                    .checkResult("Subjects", subject1)
+                    .checkResult("Hobbies", hobby)
+                    .checkResult("Picture", picture)
+                    .checkResult("Address", currentAddress)
+                    .checkResult("State and City", expectedCityAndState);
+        });
     }
 }
