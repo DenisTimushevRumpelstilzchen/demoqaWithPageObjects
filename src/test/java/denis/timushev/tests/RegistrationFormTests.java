@@ -36,9 +36,8 @@ public class RegistrationFormTests extends TestBase {
     @BeforeEach
     void openPage() {
         registrationFormPage.openPage();
-        executeJavaScript("$('footer').remove()");
+        executeJavaScript("$('footer').remove()");  // убираем рекламу
         executeJavaScript("$('#fixedban').remove()");
-
     }
 
     @Test
