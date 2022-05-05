@@ -1,16 +1,14 @@
 package denis.timushev.tests;
 
-import com.codeborne.selenide.Configuration;
 import com.github.javafaker.Faker;
 import denis.timushev.pages.RegistrationFormPage;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static io.qameta.allure.Allure.step;
 
-public class RegistrationFormTests {
+public class RegistrationFormTests extends TestBase {
 
     RegistrationFormPage registrationFormPage = new RegistrationFormPage();
     Faker faker = new Faker();
@@ -33,12 +31,6 @@ public class RegistrationFormTests {
             city = "Karnal",
             expectedCityAndState = String.format("%s %s", state, city),
             modalTitle = "Thanks for submitting the form";
-
-    @BeforeAll
-    static void setUp() {
-        Configuration.baseUrl = "https://demoqa.com";
-        Configuration.browserSize = "1920x1080";
-    }
 
     @BeforeEach
     void openPage() {
