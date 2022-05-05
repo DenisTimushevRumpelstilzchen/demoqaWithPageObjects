@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.Selenide.executeJavaScript;
 import static io.qameta.allure.Allure.step;
 
 public class RegistrationFormTests extends TestBase {
@@ -35,6 +36,9 @@ public class RegistrationFormTests extends TestBase {
     @BeforeEach
     void openPage() {
         registrationFormPage.openPage();
+        executeJavaScript("$('footer').remove()");
+        executeJavaScript("$('#fixedban').remove()");
+
     }
 
     @Test
